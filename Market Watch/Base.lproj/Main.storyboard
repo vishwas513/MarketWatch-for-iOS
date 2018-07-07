@@ -75,10 +75,6 @@
                                         <color key="textColor" red="0.49339704949238583" green="0.49339704949238583" blue="0.49339704949238583" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="irX-7a-3rg">
-                                        <rect key="frame" x="168" y="217" width="39" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </pageControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Close" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMU-u2-24l">
                                         <rect key="frame" x="38" y="107" width="44" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -149,6 +145,21 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h8F-zc-Kqb">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="251"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ej-8S-A1J">
+                                                <rect key="frame" x="337" y="8" width="30" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="X"/>
+                                                <connections>
+                                                    <action selector="closeGraph:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WrN-im-XaP"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </view>
@@ -167,10 +178,10 @@
                         <outlet property="addStockView" destination="kqJ-E3-Leu" id="PC8-9z-81j"/>
                         <outlet property="closeLabel" destination="QhF-E2-F61" id="Hrf-lK-eFW"/>
                         <outlet property="companyName" destination="1JX-BT-NvQ" id="LhQ-yA-J4O"/>
+                        <outlet property="graphView" destination="h8F-zc-Kqb" id="SKG-Re-hLN"/>
                         <outlet property="highLabel" destination="3tl-MV-a9x" id="mTX-El-Y9M"/>
                         <outlet property="lowLabel" destination="ocP-VO-o7Y" id="ff0-YK-TDD"/>
                         <outlet property="openLabel" destination="fRi-hJ-wN3" id="9DH-IG-dQt"/>
-                        <outlet property="pageControl" destination="irX-7a-3rg" id="1aN-39-cw8"/>
                         <outlet property="peRatio" destination="ofB-XM-HUJ" id="qp3-rJ-n7W"/>
                         <outlet property="priceLabel" destination="iaY-pc-fh6" id="hKF-iQ-JHb"/>
                         <outlet property="stockInput" destination="yc0-HH-3VU" id="kCt-P9-VH8"/>

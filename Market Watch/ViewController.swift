@@ -38,7 +38,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var lowLabel: UILabel!
     @IBOutlet weak var peRatio: UILabel!
     @IBOutlet weak var companyName: UILabel!
-    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var graphView: UIView!
+    
+    @IBAction func closeGraph(_ sender: Any) {
+        graphView.isHidden = true;
+    }
     
     @IBAction func addSymbol(_ sender: Any) {
         
@@ -100,6 +104,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         addStockView.isHidden = true;
         addStockView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.5);
+        graphView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.5);
         let storedSymbols = coreDataManager().getAllResults();
         var i = 0;
         
@@ -124,8 +129,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
          //   coreDataManager().deleteData(inputString: "MSFT");
          //  coreDataManager().deleteData(inputString: "NIFTY")
          
-            pageControl.numberOfPages = 3;
-            pageControl.currentPage = 1;
+            
             
             networkingManager().getDailyData(symbol: storedSymbols[i]) { (results) in
                 
