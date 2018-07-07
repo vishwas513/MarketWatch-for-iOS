@@ -1,0 +1,630 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E92C666320ED946500598B40 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C666220ED946500598B40 /* AppDelegate.swift */; };
+		E92C666520ED946500598B40 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C666420ED946500598B40 /* ViewController.swift */; };
+		E92C666820ED946500598B40 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92C666620ED946500598B40 /* Main.storyboard */; };
+		E92C666B20ED946500598B40 /* Market_Watch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E92C666920ED946500598B40 /* Market_Watch.xcdatamodeld */; };
+		E92C666D20ED946600598B40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E92C666C20ED946600598B40 /* Assets.xcassets */; };
+		E92C667020ED946600598B40 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92C666E20ED946600598B40 /* LaunchScreen.storyboard */; };
+		E92C667B20ED946600598B40 /* Market_WatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C667A20ED946600598B40 /* Market_WatchTests.swift */; };
+		E92C668620ED946600598B40 /* Market_WatchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C668520ED946600598B40 /* Market_WatchUITests.swift */; };
+		E92C669820EDA93E00598B40 /* coreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669720EDA93E00598B40 /* coreDataManager.swift */; };
+		E92C669C20EDB4F000598B40 /* networkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669B20EDB4F000598B40 /* networkingManager.swift */; };
+		E92C669E20EDC1BB00598B40 /* processData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669D20EDC1BB00598B40 /* processData.swift */; };
+		E92C66A020EDF90A00598B40 /* stockQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669F20EDF90A00598B40 /* stockQuote.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E92C667720ED946600598B40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E92C665720ED946500598B40 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E92C665E20ED946500598B40;
+			remoteInfo = "Market Watch";
+		};
+		E92C668220ED946600598B40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E92C665720ED946500598B40 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E92C665E20ED946500598B40;
+			remoteInfo = "Market Watch";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E92C665F20ED946500598B40 /* Market Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Market Watch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E92C666220ED946500598B40 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E92C666420ED946500598B40 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E92C666720ED946500598B40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E92C666A20ED946500598B40 /* Market_Watch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Market_Watch.xcdatamodel; sourceTree = "<group>"; };
+		E92C666C20ED946600598B40 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E92C666F20ED946600598B40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E92C667120ED946600598B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E92C667620ED946600598B40 /* Market WatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Market WatchTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E92C667A20ED946600598B40 /* Market_WatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market_WatchTests.swift; sourceTree = "<group>"; };
+		E92C667C20ED946600598B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E92C668120ED946600598B40 /* Market WatchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Market WatchUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E92C668520ED946600598B40 /* Market_WatchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market_WatchUITests.swift; sourceTree = "<group>"; };
+		E92C668720ED946600598B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E92C669720EDA93E00598B40 /* coreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = coreDataManager.swift; sourceTree = "<group>"; };
+		E92C669B20EDB4F000598B40 /* networkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = networkingManager.swift; sourceTree = "<group>"; };
+		E92C669D20EDC1BB00598B40 /* processData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = processData.swift; sourceTree = "<group>"; };
+		E92C669F20EDF90A00598B40 /* stockQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stockQuote.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E92C665C20ED946500598B40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E92C667320ED946600598B40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E92C667E20ED946600598B40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E92C665620ED946500598B40 = {
+			isa = PBXGroup;
+			children = (
+				E92C666120ED946500598B40 /* Market Watch */,
+				E92C667920ED946600598B40 /* Market WatchTests */,
+				E92C668420ED946600598B40 /* Market WatchUITests */,
+				E92C666020ED946500598B40 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E92C666020ED946500598B40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E92C665F20ED946500598B40 /* Market Watch.app */,
+				E92C667620ED946600598B40 /* Market WatchTests.xctest */,
+				E92C668120ED946600598B40 /* Market WatchUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E92C666120ED946500598B40 /* Market Watch */ = {
+			isa = PBXGroup;
+			children = (
+				E92C669620EDA92B00598B40 /* Model */,
+				E92C666220ED946500598B40 /* AppDelegate.swift */,
+				E92C666420ED946500598B40 /* ViewController.swift */,
+				E92C666620ED946500598B40 /* Main.storyboard */,
+				E92C666C20ED946600598B40 /* Assets.xcassets */,
+				E92C666E20ED946600598B40 /* LaunchScreen.storyboard */,
+				E92C667120ED946600598B40 /* Info.plist */,
+				E92C666920ED946500598B40 /* Market_Watch.xcdatamodeld */,
+			);
+			path = "Market Watch";
+			sourceTree = "<group>";
+		};
+		E92C667920ED946600598B40 /* Market WatchTests */ = {
+			isa = PBXGroup;
+			children = (
+				E92C667A20ED946600598B40 /* Market_WatchTests.swift */,
+				E92C667C20ED946600598B40 /* Info.plist */,
+			);
+			path = "Market WatchTests";
+			sourceTree = "<group>";
+		};
+		E92C668420ED946600598B40 /* Market WatchUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E92C668520ED946600598B40 /* Market_WatchUITests.swift */,
+				E92C668720ED946600598B40 /* Info.plist */,
+			);
+			path = "Market WatchUITests";
+			sourceTree = "<group>";
+		};
+		E92C669620EDA92B00598B40 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E92C669720EDA93E00598B40 /* coreDataManager.swift */,
+				E92C669B20EDB4F000598B40 /* networkingManager.swift */,
+				E92C669D20EDC1BB00598B40 /* processData.swift */,
+				E92C669F20EDF90A00598B40 /* stockQuote.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E92C665E20ED946500598B40 /* Market Watch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E92C668A20ED946600598B40 /* Build configuration list for PBXNativeTarget "Market Watch" */;
+			buildPhases = (
+				E92C665B20ED946500598B40 /* Sources */,
+				E92C665C20ED946500598B40 /* Frameworks */,
+				E92C665D20ED946500598B40 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Market Watch";
+			productName = "Market Watch";
+			productReference = E92C665F20ED946500598B40 /* Market Watch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E92C667520ED946600598B40 /* Market WatchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E92C668D20ED946600598B40 /* Build configuration list for PBXNativeTarget "Market WatchTests" */;
+			buildPhases = (
+				E92C667220ED946600598B40 /* Sources */,
+				E92C667320ED946600598B40 /* Frameworks */,
+				E92C667420ED946600598B40 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E92C667820ED946600598B40 /* PBXTargetDependency */,
+			);
+			name = "Market WatchTests";
+			productName = "Market WatchTests";
+			productReference = E92C667620ED946600598B40 /* Market WatchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E92C668020ED946600598B40 /* Market WatchUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E92C669020ED946600598B40 /* Build configuration list for PBXNativeTarget "Market WatchUITests" */;
+			buildPhases = (
+				E92C667D20ED946600598B40 /* Sources */,
+				E92C667E20ED946600598B40 /* Frameworks */,
+				E92C667F20ED946600598B40 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E92C668320ED946600598B40 /* PBXTargetDependency */,
+			);
+			name = "Market WatchUITests";
+			productName = "Market WatchUITests";
+			productReference = E92C668120ED946600598B40 /* Market WatchUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E92C665720ED946500598B40 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Vishwas Mukund";
+				TargetAttributes = {
+					E92C665E20ED946500598B40 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					E92C667520ED946600598B40 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = E92C665E20ED946500598B40;
+					};
+					E92C668020ED946600598B40 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = E92C665E20ED946500598B40;
+					};
+				};
+			};
+			buildConfigurationList = E92C665A20ED946500598B40 /* Build configuration list for PBXProject "Market Watch" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E92C665620ED946500598B40;
+			productRefGroup = E92C666020ED946500598B40 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E92C665E20ED946500598B40 /* Market Watch */,
+				E92C667520ED946600598B40 /* Market WatchTests */,
+				E92C668020ED946600598B40 /* Market WatchUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E92C665D20ED946500598B40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E92C667020ED946600598B40 /* LaunchScreen.storyboard in Resources */,
+				E92C666D20ED946600598B40 /* Assets.xcassets in Resources */,
+				E92C666820ED946500598B40 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E92C667420ED946600598B40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E92C667F20ED946600598B40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E92C665B20ED946500598B40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E92C666520ED946500598B40 /* ViewController.swift in Sources */,
+				E92C66A020EDF90A00598B40 /* stockQuote.swift in Sources */,
+				E92C669E20EDC1BB00598B40 /* processData.swift in Sources */,
+				E92C669C20EDB4F000598B40 /* networkingManager.swift in Sources */,
+				E92C666320ED946500598B40 /* AppDelegate.swift in Sources */,
+				E92C669820EDA93E00598B40 /* coreDataManager.swift in Sources */,
+				E92C666B20ED946500598B40 /* Market_Watch.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E92C667220ED946600598B40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E92C667B20ED946600598B40 /* Market_WatchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E92C667D20ED946600598B40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E92C668620ED946600598B40 /* Market_WatchUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E92C667820ED946600598B40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E92C665E20ED946500598B40 /* Market Watch */;
+			targetProxy = E92C667720ED946600598B40 /* PBXContainerItemProxy */;
+		};
+		E92C668320ED946600598B40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E92C665E20ED946500598B40 /* Market Watch */;
+			targetProxy = E92C668220ED946600598B40 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E92C666620ED946500598B40 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E92C666720ED946500598B40 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E92C666E20ED946600598B40 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E92C666F20ED946600598B40 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E92C668820ED946600598B40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E92C668920ED946600598B40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E92C668B20ED946600598B40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UKY9D8344E;
+				INFOPLIST_FILE = "Market Watch/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "vish.Market-Watch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E92C668C20ED946600598B40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UKY9D8344E;
+				INFOPLIST_FILE = "Market Watch/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "vish.Market-Watch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E92C668E20ED946600598B40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UKY9D8344E;
+				INFOPLIST_FILE = "Market WatchTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "vish.Market-WatchTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Market Watch.app/Market Watch";
+			};
+			name = Debug;
+		};
+		E92C668F20ED946600598B40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UKY9D8344E;
+				INFOPLIST_FILE = "Market WatchTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "vish.Market-WatchTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Market Watch.app/Market Watch";
+			};
+			name = Release;
+		};
+		E92C669120ED946600598B40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UKY9D8344E;
+				INFOPLIST_FILE = "Market WatchUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "vish.Market-WatchUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Market Watch";
+			};
+			name = Debug;
+		};
+		E92C669220ED946600598B40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UKY9D8344E;
+				INFOPLIST_FILE = "Market WatchUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "vish.Market-WatchUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Market Watch";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E92C665A20ED946500598B40 /* Build configuration list for PBXProject "Market Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E92C668820ED946600598B40 /* Debug */,
+				E92C668920ED946600598B40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E92C668A20ED946600598B40 /* Build configuration list for PBXNativeTarget "Market Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E92C668B20ED946600598B40 /* Debug */,
+				E92C668C20ED946600598B40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E92C668D20ED946600598B40 /* Build configuration list for PBXNativeTarget "Market WatchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E92C668E20ED946600598B40 /* Debug */,
+				E92C668F20ED946600598B40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E92C669020ED946600598B40 /* Build configuration list for PBXNativeTarget "Market WatchUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E92C669120ED946600598B40 /* Debug */,
+				E92C669220ED946600598B40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E92C666920ED946500598B40 /* Market_Watch.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E92C666A20ED946500598B40 /* Market_Watch.xcdatamodel */,
+			);
+			currentVersion = E92C666A20ED946500598B40 /* Market_Watch.xcdatamodel */;
+			path = Market_Watch.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = E92C665720ED946500598B40 /* Project object */;
+}
