@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import QuartzCore
 
 struct stock{
    let symbol : String
    let net : Float
     
 }
+
+
+
+
 
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -33,10 +38,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var lowLabel: UILabel!
     @IBOutlet weak var peRatio: UILabel!
     @IBOutlet weak var companyName: UILabel!
+    @IBOutlet weak var pageControl: UIPageControl!
     
     @IBAction func addSymbol(_ sender: Any) {
         
         if(stockInput.text != "" && stockInput != nil){
+            
             let currentSymbol = stockInput.text;
             coreDataManager().saveData(inputString: stockInput.text!);
             networkingManager().getDailyData(symbol: stockInput.text!) { (results) in
@@ -96,25 +103,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let storedSymbols = coreDataManager().getAllResults();
         var i = 0;
         
-       // print(coreDataManager().getAllResults());
+//        print(coreDataManager().getAllResults());
      
         while(i < storedSymbols.count){
             var currentSymbol = storedSymbols[i];
           //  print(currentSymbol);
            
             
-         //   coreDataManager().deleteData(inputString: "APPL");
+        //    coreDataManager().deleteData(inputString: "APPL");
+        //    coreDataManager().deleteData(inputString: "AAPL");
          //   coreDataManager().deleteData(inputString: "RY");
          //   coreDataManager().deleteData(inputString: "GOOG");
          //   coreDataManager().deleteData(inputString: "HPQ");
          //   coreDataManager().deleteData(inputString: "SBUX");
          //   coreDataManager().deleteData(inputString: "INFY");
          //   coreDataManager().deleteData(inputString: "FB");
-         //   coreDataManager().deleteData(inputString: "SNAP");
+         //   coreDataManager().deleteData(inputString: "");
          //   coreDataManager().deleteData(inputString: "XOM");
          //   coreDataManager().deleteData(inputString: "FB");
          //   coreDataManager().deleteData(inputString: "MSFT");
          //  coreDataManager().deleteData(inputString: "NIFTY")
+         
+            pageControl.numberOfPages = 3;
+            pageControl.currentPage = 1;
             
             networkingManager().getDailyData(symbol: storedSymbols[i]) { (results) in
                 
@@ -142,8 +153,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
               
                 
             }
-            
-            
             i += 1;
         }
         
@@ -228,9 +237,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            coreDataManager().deleteData(inputString: (stocks[indexPath.row].0));
-            stocks.remove(at: indexPath.row);
-            tableView.reloadData();
+           // coreDataManager().deleteData(inputString: (stocks[indexPath.row].0));
+           // stocks.remove(at: indexPath.row);
+           // tableView.reloadData();
         }
     }
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let delete = UITableViewRowAction(style: .normal, title: "Delete") { (action, indexPath) in
+            coreDataManager().deleteData(inputString: (self.stocks[indexPath.row].0));
+            self.stocks.remove(at: indexPath.row);
+            tableView.reloadData();
+        }
+        
+        delete.backgroundColor = UIColor.black
+        
+        return [delete];
+    }
+    
 }
