@@ -8,14 +8,12 @@
 
 import Foundation
 
-class stockQuote {
-    
-     var symbol:String = "";
-   //  let open: Double?;
-   //  let high: Double?;
-   // private let low: Double?;
-   // private let marketCap: Double?;
-   // private let high52week: Double?;
-    private let low52week: Double = 0.0;
-    private let peRation: Double = 0.0;
+class stockQuote : NSObject {
+    var companyName:String = "";
+    var open: Double = 0.0;
+    var close: Double = 0.0;
+    var high: Double = 0.0;
+    var low: Double = 0.0;
+    var peRatio: Double = 0.0;
+    var currentPrice: Double = 0.0;
 }

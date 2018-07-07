@@ -18,30 +18,52 @@ struct stock{
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     //private let stocks = ["APPL","FB","GOOG"]
     fileprivate var stocks: [(String,Double)] = []
+    fileprivate var stockDetails = [String : stockQuote]();
     var appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
    // var detailsArray = [String,NSArray]();
     
     @IBOutlet weak var addStockView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var stockInput: UITextField!
-   
+  
+    @IBOutlet weak var openLabel: UILabel!
+    @IBOutlet weak var closeLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var highLabel: UILabel!
+    @IBOutlet weak var lowLabel: UILabel!
+    @IBOutlet weak var peRatio: UILabel!
+    @IBOutlet weak var companyName: UILabel!
+    
     @IBAction func addSymbol(_ sender: Any) {
         
         if(stockInput.text != "" && stockInput != nil){
-            var currentSymbol = stockInput.text;
+            let currentSymbol = stockInput.text;
             coreDataManager().saveData(inputString: stockInput.text!);
             networkingManager().getDailyData(symbol: stockInput.text!) { (results) in
-                let dailyQuotes = results["chart"] as! NSArray;
-                print(dailyQuotes[dailyQuotes.count - 1])
-                let recentDay = dailyQuotes[dailyQuotes.count - 1] as! NSDictionary;
-                let changePecentage = recentDay["changePercent"]! as! Double;
-                let currentStock = (currentSymbol, changePecentage);
+                
+                let quote = results["quote"] as! NSDictionary;
+                let changePercent = quote["changePercent"] as! Double
+                let currentStock = (currentSymbol, changePercent * 100);
                 self.stocks.append(currentStock as! (String, Double));
+                let stock = stockQuote();
+                
+                stock.companyName = quote["companyName"] as! String;
+                stock.high = quote["high"] as! Double;
+                stock.low = quote["low"] as! Double;
+                stock.open = quote["open"] as! Double;
+                stock.close = quote["close"] as! Double;
+                stock.peRatio = quote["peRatio"] as! Double;
+                stock.currentPrice = quote["latestPrice"] as! Double;
+                
+                self.stockDetails[currentSymbol!] = stock;
+               // print(self.stockDetails);
+                
                 DispatchQueue.main.async {
                     self.tableView.reloadData();
                 }
             }
             addStockView.isHidden = true;
+            
             
             
         }
@@ -92,22 +114,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
          //   coreDataManager().deleteData(inputString: "XOM");
          //   coreDataManager().deleteData(inputString: "FB");
          //   coreDataManager().deleteData(inputString: "MSFT");
-         //   coreDataManager().deleteData(inputString: "YHOO")
+         //  coreDataManager().deleteData(inputString: "NIFTY")
             
             networkingManager().getDailyData(symbol: storedSymbols[i]) { (results) in
                 
-                let dailyQuotes = results["chart"] as! NSArray;
-                let recentDay = dailyQuotes[dailyQuotes.count - 1] as! NSDictionary;
-                let changePecentage = recentDay["changePercent"]! as! Double;
-                let currentStock = (currentSymbol, changePecentage);
+                let quote = results["quote"] as! NSDictionary;
+                let changePercent = quote["changePercent"] as! Double
+                let currentStock = (currentSymbol, changePercent * 100);
                 self.stocks.append(currentStock);
                 
-               // var quotes = results["quotes"] as! NSArray;
-              //  print(quotes);
-              //  var stockObject = stockQuote();
-                //stockObject.symbol = quotes["symbol"];
+                let stock = stockQuote();
                 
+                stock.companyName = quote["companyName"] as! String;
+                stock.high = quote["high"] as! Double;
+                stock.low = quote["low"] as! Double;
+                stock.open = quote["open"] as! Double;
+                stock.close = quote["close"] as! Double;
+                stock.peRatio = quote["peRatio"] as! Double;
+                stock.currentPrice = quote["latestPrice"] as! Double;
                 
+                self.stockDetails[currentSymbol] = stock;
+                
+                print(self.stockDetails);
                 DispatchQueue.main.async {
                     self.tableView.reloadData();
                 }
@@ -138,12 +166,38 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         //cell.textLabel.text = stocks[indexPath.row]
         cell.textLabel!.text = stocks[indexPath.row].0 //position 0 of the tuple: The Symbol "APPL"
         cell.detailTextLabel!.text = "\(stocks[indexPath.row].1)" + "%" //position 1 of the tuple: The value "99" into String
+        cell.selectionStyle = UITableViewCellSelectionStyle.none;
+        
+        let indexPath = IndexPath(row: 0, section: 0)
+        let currentSymbol = self.stocks[0].0 as String;
+        let object : stockQuote = self.stockDetails[currentSymbol]!;
+        
+        openLabel.text = object.open.description;
+        closeLabel.text = object.close.description;
+        highLabel.text = object.high.description;
+        lowLabel.text = object.low.description;
+        companyName.text = object.companyName.description;
+        peRatio.text = object.peRatio.description;
+        priceLabel.text = object.currentPrice.description;
+        
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom);
+        
         return cell
     }
     
     //UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        NSLog("cell clicked")
+        let index = indexPath.row;
+        let currentSymbol = self.stocks[index].0 as String;
+        let object : stockQuote = self.stockDetails[currentSymbol]!;
+
+        openLabel.text = object.open.description;
+        closeLabel.text = object.close.description;
+        highLabel.text = object.high.description;
+        lowLabel.text = object.low.description;
+        companyName.text = object.companyName.description;
+        peRatio.text = object.peRatio.description;
+        priceLabel.text = object.currentPrice.description;
     }
     
     //Customize the cell
