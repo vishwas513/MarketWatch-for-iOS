@@ -10,7 +10,7 @@ import Foundation
 import CoreGraphics
 
 class stockQuote : NSObject {
-    var companyName:String = "";
+    var companyName: String = "";
     var open: Double = 0.0;
     var close: Double = 0.0;
     var high: Double = 0.0;
@@ -18,4 +18,6 @@ class stockQuote : NSObject {
     var peRatio: Double = 0.0;
     var currentPrice: Double = 0.0;
     var chartData = [CGFloat]();
+    var headLine: String = "";
+    var summary: String = "";
 }

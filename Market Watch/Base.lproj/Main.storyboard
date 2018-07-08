@@ -171,16 +171,32 @@
                                                     <action selector="closeGraph:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WrN-im-XaP"/>
                                                 </connections>
                                             </button>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IJa-Fj-PIi">
-                                                <rect key="frame" x="0.0" y="91" width="375" height="219"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IJa-Fj-PIi">
+                                <rect key="frame" x="0.0" y="379" width="375" height="237"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cvy-ep-kk9">
+                                        <rect key="frame" x="8" y="16" width="359" height="78"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.069200350730356713" green="0.9912555520304569" blue="0.089320270803834145" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="flj-Yj-P0t">
+                                        <rect key="frame" x="8" y="90" width="359" height="139"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" red="0.94792769910323937" green="0.9912555520304569" blue="0.94388628816294673" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -199,8 +215,11 @@
                         <outlet property="closeLabel" destination="QhF-E2-F61" id="Hrf-lK-eFW"/>
                         <outlet property="companyName" destination="1JX-BT-NvQ" id="LhQ-yA-J4O"/>
                         <outlet property="graphView" destination="h8F-zc-Kqb" id="SKG-Re-hLN"/>
+                        <outlet property="headLine" destination="Cvy-ep-kk9" id="qEm-n5-7XK"/>
                         <outlet property="highLabel" destination="3tl-MV-a9x" id="mTX-El-Y9M"/>
                         <outlet property="lowLabel" destination="ocP-VO-o7Y" id="ff0-YK-TDD"/>
+                        <outlet property="newsArticle" destination="flj-Yj-P0t" id="WZi-yM-MAM"/>
+                        <outlet property="newsView" destination="IJa-Fj-PIi" id="Co5-DV-kxc"/>
                         <outlet property="openLabel" destination="fRi-hJ-wN3" id="9DH-IG-dQt"/>
                         <outlet property="peRatio" destination="ofB-XM-HUJ" id="qp3-rJ-n7W"/>
                         <outlet property="priceLabel" destination="iaY-pc-fh6" id="hKF-iQ-JHb"/>

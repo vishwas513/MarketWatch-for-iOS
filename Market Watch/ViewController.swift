@@ -14,7 +14,26 @@ struct stock{
     
 }
 
-
+extension UIImageView {
+    func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            DispatchQueue.main.async() {
+                self.image = image
+            }
+            }.resume()
+    }
+    func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .scaleAspectFit) {
+        guard let url = URL(string: link) else { return }
+        downloadedFrom(url: url, contentMode: mode)
+    }
+}
 
 
 
@@ -47,6 +66,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var companyName: UILabel!
     @IBOutlet weak var graphView: UIView!
     @IBOutlet weak var newsView: UIView!
+    @IBOutlet weak var headLine: UILabel!
+    @IBOutlet weak var newsArticle: UILabel!
     
     @IBOutlet weak var changePage: UISegmentedControl!
     @IBAction func changePage(_ sender: Any) {
@@ -54,12 +75,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if(selection == 0){
             graphView.isHidden = true;
+            newsView.isHidden = true;
         }
         if(selection == 1){
             graphView.isHidden = false;
+            newsView.isHidden = true;
             UIView.transition(with: graphView, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil);
         }
         if(selection == 2){
+            newsView.isHidden = false;
+            graphView.isHidden = true;
+            UIView.transition(with: graphView, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil);
             
         }
         
@@ -128,9 +154,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad();
         
         graphView.isHidden = true;
-        addStockView.isHidden = true; 
+        addStockView.isHidden = true;
+        newsView.isHidden = true;
+        
         addStockView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.5);
         graphView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
+        newsView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
         let storedSymbols = coreDataManager().getAllResults();
         var i = 0;
         
@@ -161,6 +190,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 let quote = results["quote"] as! NSDictionary;
                 let chart = results["chart"] as! NSArray;
+                let news = results["news"] as! NSArray;
                 let changePercent = quote["changePercent"] as! Double
                 let currentStock = (currentSymbol, changePercent * 100);
                 self.stocks.append(currentStock);
@@ -179,7 +209,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     count += 1;
                 }
                 
+                let latestNews = news[0] as! NSDictionary;
                 
+                
+    
                 let stock = stockQuote();
                 
                 stock.companyName = quote["companyName"] as! String;
@@ -190,9 +223,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 stock.peRatio = quote["peRatio"] as! Double;
                 stock.currentPrice = quote["latestPrice"] as! Double;
                 stock.chartData = chartArray as [CGFloat];
+                stock.headLine = latestNews["headline"] as! String;
+                stock.summary = latestNews["summary"] as! String;
                 
                 self.stockDetails[currentSymbol] = stock;
                 
+                print(self.stockDetails);
                 DispatchQueue.main.async {
                     self.tableView.reloadData();
                 }
@@ -253,7 +289,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         companyName.text = object.companyName.description;
         peRatio.text = object.peRatio.description;
         priceLabel.text = object.currentPrice.description;
+        headLine.text = object.headLine.description;
+        newsArticle.text = object.summary.description;
 
+    
         prepareGraph(dataSet: object.chartData);
         
     }
@@ -306,7 +345,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func prepareGraph(dataSet : [CGFloat]){
         var views: [String: AnyObject] = [:]
-        label.text = "..."
+        label.text = "Click on point at view information at that day"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = NSTextAlignment.center
         label.textColor = .white;
@@ -334,6 +373,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         lineChart.addLine(data)
         lineChart.lineWidth = 1;
+
         
         lineChart.translatesAutoresizingMaskIntoConstraints = false
         lineChart.delegate = self
