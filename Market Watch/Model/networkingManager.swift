@@ -12,11 +12,7 @@ class networkingManager{
     
     
     func getDailyData(symbol:String, completionHandler: @escaping (_ stockData: NSDictionary) -> ()){
-        //"https://api.iextrading.com/1.0/stock/aapl/batch?types=quote,news,chart&range=1m&last=10"
-        //Building the URL https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=demo
-        let baseUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY"
         let baseUrl2 = "https://api.iextrading.com/1.0/stock"
-        let url = NSURL(string: baseUrl + "&symbol=" + symbol + "&apikey=JU78DQCHZT7STXGV")!
         let url2 = NSURL(string: baseUrl2 + "/" + symbol + "/" + "batch?types=quote,news,chart&range=1m&last=1")!
         
         //Creating the Request Object with options

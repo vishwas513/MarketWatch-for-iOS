@@ -8,55 +8,17 @@
 
 import UIKit
 
-struct stock{
-   let symbol : String
-   let net : Float
-    
-}
-
-extension UIImageView {
-    func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
-        contentMode = mode
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            DispatchQueue.main.async() {
-                self.image = image
-            }
-            }.resume()
-    }
-    func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .scaleAspectFit) {
-        guard let url = URL(string: link) else { return }
-        downloadedFrom(url: url, contentMode: mode)
-    }
-}
-
-
-
-
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, LineChartDelegate {
-    
-    func didSelectDataPoint(_ x: CGFloat, yValues: [CGFloat]) {
-        label.text = "currentPrice: \(yValues)"
-    }
     
     var label = UILabel()
     var lineChart: LineChart!
-    
-    //private let stocks = ["APPL","FB","GOOG"]
+    var appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
     fileprivate var stocks: [(String,Double)] = []
     fileprivate var stockDetails = [String : stockQuote]();
-    var appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
-   // var detailsArray = [String,NSArray]();
     
     @IBOutlet weak var addStockView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var stockInput: UITextField!
-  
     @IBOutlet weak var openLabel: UILabel!
     @IBOutlet weak var closeLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -67,11 +29,75 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var graphView: UIView!
     @IBOutlet weak var newsView: UIView!
     @IBOutlet weak var headLine: UILabel!
-   
     @IBOutlet weak var newsArticle: UILabel!
     @IBOutlet weak var errorLabel: UILabel!
-    
     @IBOutlet weak var changePage: UISegmentedControl!
+   
+    @IBAction func refreshButton(_ sender: Any) {
+        let storedSymbols = coreDataManager().getAllResults();
+        var i = 0;
+        
+        self.stocks = [];
+        while(i < storedSymbols.count){
+            let currentSymbol = storedSymbols[i];
+           
+            networkingManager().getDailyData(symbol: storedSymbols[i]) { (results) in
+                
+                let quote = results["quote"] as! NSDictionary;
+                let chart = results["chart"] as! NSArray;
+                let news = results["news"] as! NSArray;
+                let changePercent = quote["changePercent"] as! Double
+                let currentStock = (currentSymbol, changePercent * 100);
+                self.stocks.append(currentStock);
+                
+                var i = chart.count - 1;
+                var count = 0;
+                var chartArray = [CGFloat]();
+                //self.stockDetails.removeAll();
+                while(i > 0 && count < 7){
+                    
+                    let day = chart[i] as! NSDictionary;
+                    let open = day["open"] as! CGFloat;
+                    chartArray.append(open);
+                    i -= 1;
+                    count += 1;
+                }
+                
+                let latestNews = news[0] as! NSDictionary;
+                
+                
+                
+                let stock = stockQuote();
+                
+                stock.companyName = quote["companyName"] as! String;
+                stock.high = quote["high"] as! Double;
+                stock.low = quote["low"] as! Double;
+                stock.open = quote["open"] as! Double;
+                stock.close = quote["close"] as! Double;
+                stock.peRatio = quote["peRatio"] as! Double;
+                stock.currentPrice = quote["latestPrice"] as! Double;
+                stock.chartData = chartArray as [CGFloat];
+                stock.headLine = latestNews["headline"] as! String;
+                stock.summary = latestNews["summary"] as! String;
+                
+                self.stockDetails[currentSymbol] = stock;
+                
+
+                DispatchQueue.main.async {
+                    self.tableView.reloadData();
+                }
+                
+                
+            }
+            
+            
+            i += 1;
+        }
+        
+        
+        
+    }
+    
     @IBAction func changePage(_ sender: Any) {
         let selection = changePage.selectedSegmentIndex;
         
@@ -100,11 +126,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func addSymbol(_ sender: Any) {
         
         if(stockInput.text != "" && stockInput != nil){
-            
             let currentSymbol = stockInput.text;
-            
-           
-            
             networkingManager().getDailyData(symbol: stockInput.text!) { (results) in
                 
                 
@@ -180,17 +202,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         else if(addStockView.isHidden == true){
             addStockView.isHidden = false;
             changePage.isHidden = true;
-            
-            
-            
-            
-            
-            
-            
         }
-        
-        
-        
     }
 
     override func viewDidLoad() {
@@ -199,22 +211,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         graphView.isHidden = true;
         addStockView.isHidden = true;
         newsView.isHidden = true;
-        
+    
         addStockView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.5);
         graphView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
         newsView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
+        
         let storedSymbols = coreDataManager().getAllResults();
         var i = 0;
         
-        print(coreDataManager().getAllResults());
      
         while(i < storedSymbols.count){
-            var currentSymbol = storedSymbols[i];
+            let currentSymbol = storedSymbols[i];
        //     performNetworkingAndUpdateTable(currentSymbol: currentSymbol);
           //  print(currentSymbol);
            
             
-             coreDataManager().deleteData(inputString: "APPL");
+         //    coreDataManager().deleteData(inputString: "APPL");
          //    coreDataManager().deleteData(inputString: "AAPL");
          //   coreDataManager().deleteData(inputString: "RY");
          //   coreDataManager().deleteData(inputString: "GOOG");
@@ -244,7 +256,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 var i = chart.count - 1;
                 var count = 0;
                 var chartArray = [CGFloat]();
-                chartArray.append(0);
                 while(i > 0 && count < 7){
                     
                     let day = chart[i] as! NSDictionary;
@@ -317,8 +328,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         companyName.text = object.companyName.description;
         peRatio.text = object.peRatio.description;
         priceLabel.text = object.currentPrice.description;
+        headLine.text = object.headLine.description;
+        newsArticle.text = object.summary.description;
         
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom);
+        prepareGraph(dataSet: object.chartData);
+        
         
         return cell
     }
@@ -338,8 +353,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         priceLabel.text = object.currentPrice.description;
         headLine.text = object.headLine.description;
         newsArticle.text = object.summary.description;
-
-    
         prepareGraph(dataSet: object.chartData);
         
     }
@@ -411,10 +424,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         lineChart = LineChart();
        
         lineChart.animation.enabled = true
-        lineChart.area = true
+        lineChart.area = false
         lineChart.x.labels.visible = true
         lineChart.x.grid.count = 7
-        lineChart.y.grid.count = 5
+        lineChart.y.grid.count = 1
         lineChart.x.labels.values = xLabels
         lineChart.y.labels.visible = true
         
@@ -425,12 +438,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         lineChart.translatesAutoresizingMaskIntoConstraints = false
         lineChart.delegate = self
         graphView.clipsToBounds = true;
-        self.graphView.addSubview(lineChart)
+        lineChart.removeFromSuperview();
+        
+        self.graphView.addSubview(lineChart);
         
 
         views["chart"] = lineChart
         graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[chart]-|", options: [], metrics: nil, views: views))
         graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[label]-[chart(==200)]", options: [], metrics: nil, views: views))
         
+    }
+    func didSelectDataPoint(_ x: CGFloat, yValues: [CGFloat]) {
+        label.text = "currentPrice: \(yValues)"
     }
 }

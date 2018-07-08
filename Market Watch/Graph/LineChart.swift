@@ -243,7 +243,7 @@ open class LineChart: UIView {
         if (self.dataStore.isEmpty) {
             return
         }
-        let point: AnyObject! = touches.anyObject() as AnyObject!
+        let point: AnyObject! = touches.anyObject() as AnyObject?
         let xValue = point.location(in: self).x
         let inverted = self.x.invert(xValue - x.axis.inset)
         let rounded = Int(round(Double(inverted)))
@@ -258,7 +258,7 @@ open class LineChart: UIView {
      * Listen on touch end event.
      */
     override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        handleTouchEvents(touches as NSSet!, event: event!)
+        handleTouchEvents(touches as NSSet?, event: event!)
     }
     
     
@@ -267,7 +267,7 @@ open class LineChart: UIView {
      * Listen on touch move event
      */
     override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        handleTouchEvents(touches as NSSet!, event: event!)
+        handleTouchEvents(touches as NSSet?, event: event!)
     }
     
     
@@ -513,7 +513,7 @@ open class LineChart: UIView {
         let (_, _, step) = x.linear.ticks(xAxisData.count)
         let width = x.scale(step)
         
-        var text: String
+        var text: String?
         for (index, _) in xAxisData.enumerated() {
             let xValue = self.x.scale(CGFloat(index)) + x.axis.inset - (width / 2)
             let label = UILabel(frame: CGRect(x: xValue, y: y, width: width, height: x.axis.inset))
@@ -524,7 +524,7 @@ open class LineChart: UIView {
             } else {
                 text = String(index)
             }
-           // label.text = text
+            label.text = text
             self.addSubview(label)
         }
     }

@@ -17,7 +17,6 @@
 		E92C668620ED946600598B40 /* Market_WatchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C668520ED946600598B40 /* Market_WatchUITests.swift */; };
 		E92C669820EDA93E00598B40 /* coreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669720EDA93E00598B40 /* coreDataManager.swift */; };
 		E92C669C20EDB4F000598B40 /* networkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669B20EDB4F000598B40 /* networkingManager.swift */; };
-		E92C669E20EDC1BB00598B40 /* processData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669D20EDC1BB00598B40 /* processData.swift */; };
 		E92C66A020EDF90A00598B40 /* stockQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669F20EDF90A00598B40 /* stockQuote.swift */; };
 		E9C1A2F720F17F79000384CA /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C1A2F620F17F79000384CA /* LineChart.swift */; };
 		E9C1A2FA20F18DE2000384CA /* 16201-200.png in Resources */ = {isa = PBXBuildFile; fileRef = E9C1A2F920F18DE2000384CA /* 16201-200.png */; };
@@ -58,7 +57,6 @@
 		E92C668720ED946600598B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E92C669720EDA93E00598B40 /* coreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = coreDataManager.swift; sourceTree = "<group>"; };
 		E92C669B20EDB4F000598B40 /* networkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = networkingManager.swift; sourceTree = "<group>"; };
-		E92C669D20EDC1BB00598B40 /* processData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = processData.swift; sourceTree = "<group>"; };
 		E92C669F20EDF90A00598B40 /* stockQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stockQuote.swift; sourceTree = "<group>"; };
 		E9C1A2F620F17F79000384CA /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
 		E9C1A2F920F18DE2000384CA /* 16201-200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16201-200.png"; sourceTree = "<group>"; };
@@ -150,7 +148,6 @@
 			children = (
 				E92C669720EDA93E00598B40 /* coreDataManager.swift */,
 				E92C669B20EDB4F000598B40 /* networkingManager.swift */,
-				E92C669D20EDC1BB00598B40 /* processData.swift */,
 				E92C669F20EDF90A00598B40 /* stockQuote.swift */,
 			);
 			path = Model;
@@ -308,7 +305,6 @@
 			files = (
 				E92C666520ED946500598B40 /* ViewController.swift in Sources */,
 				E92C66A020EDF90A00598B40 /* stockQuote.swift in Sources */,
-				E92C669E20EDC1BB00598B40 /* processData.swift in Sources */,
 				E92C669C20EDB4F000598B40 /* networkingManager.swift in Sources */,
 				E9C1A2F720F17F79000384CA /* LineChart.swift in Sources */,
 				E92C666320ED946500598B40 /* AppDelegate.swift in Sources */,

@@ -11,10 +11,12 @@ import CoreData
 import UIKit
 
 class coreDataManager {
-    var appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate);
-   
+    
+    
+    
+    
     func saveData(inputString:String){
-        
+        let appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate);
         let context:NSManagedObjectContext = appDel.persistentContainer.viewContext
         let symbol = NSEntityDescription.insertNewObject(forEntityName: "Symbols",into: context) as! Symbols
         symbol.smybolName = inputString;
@@ -30,7 +32,7 @@ class coreDataManager {
     }
     
     func deleteData(inputString: String){
-        
+        let appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate);
         let context:NSManagedObjectContext = appDel.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Symbols");
         fetchRequest.predicate=NSPredicate(format: "smybolName = %@", inputString);
@@ -54,7 +56,7 @@ class coreDataManager {
     }
     
     func getAllResults() -> [String]{
-        
+        let appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate);
         var savedSymbols = [String]();
         let context:NSManagedObjectContext = appDel.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Symbols");
@@ -64,7 +66,7 @@ class coreDataManager {
         do {
             result = try context.fetch(fetchRequest) as [AnyObject]
             for i in result as! [Symbols] {
-                savedSymbols.append(i.smybolName as! String);
+                savedSymbols.append(i.smybolName!);
             }
         }catch{
             print("Error fetching data from CoreData");
