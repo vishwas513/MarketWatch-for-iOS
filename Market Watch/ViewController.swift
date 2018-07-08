@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import QuartzCore
 
 struct stock{
    let symbol : String
@@ -20,7 +19,15 @@ struct stock{
 
 
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, LineChartDelegate {
+    
+    func didSelectDataPoint(_ x: CGFloat, yValues: [CGFloat]) {
+        label.text = "currentPrice: \(yValues)"
+    }
+    
+    var label = UILabel()
+    var lineChart: LineChart!
+    
     //private let stocks = ["APPL","FB","GOOG"]
     fileprivate var stocks: [(String,Double)] = []
     fileprivate var stockDetails = [String : stockQuote]();
@@ -39,6 +46,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var peRatio: UILabel!
     @IBOutlet weak var companyName: UILabel!
     @IBOutlet weak var graphView: UIView!
+    @IBOutlet weak var newsView: UIView!
+    
+    @IBOutlet weak var changePage: UISegmentedControl!
+    @IBAction func changePage(_ sender: Any) {
+        let selection = changePage.selectedSegmentIndex;
+        
+        if(selection == 0){
+            graphView.isHidden = true;
+        }
+        if(selection == 1){
+            graphView.isHidden = false;
+            UIView.transition(with: graphView, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil);
+        }
+        if(selection == 2){
+            
+        }
+        
+    }
     
     @IBAction func closeGraph(_ sender: Any) {
         graphView.isHidden = true;
@@ -102,9 +127,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        addStockView.isHidden = true;
+        graphView.isHidden = true;
+        addStockView.isHidden = true; 
         addStockView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.5);
-        graphView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.5);
+        graphView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
         let storedSymbols = coreDataManager().getAllResults();
         var i = 0;
         
@@ -134,9 +160,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             networkingManager().getDailyData(symbol: storedSymbols[i]) { (results) in
                 
                 let quote = results["quote"] as! NSDictionary;
+                let chart = results["chart"] as! NSArray;
                 let changePercent = quote["changePercent"] as! Double
                 let currentStock = (currentSymbol, changePercent * 100);
                 self.stocks.append(currentStock);
+                
+                print(chart[chart.count - 1]);
+                var i = chart.count - 1;
+                var count = 0;
+                var chartArray = [CGFloat]();
+                chartArray.append(0);
+                while(i > 0 && count < 7){
+                    
+                    let day = chart[i] as! NSDictionary;
+                    let open = day["open"] as! CGFloat;
+                    chartArray.append(open);
+                    i -= 1;
+                    count += 1;
+                }
+                
                 
                 let stock = stockQuote();
                 
@@ -147,10 +189,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 stock.close = quote["close"] as! Double;
                 stock.peRatio = quote["peRatio"] as! Double;
                 stock.currentPrice = quote["latestPrice"] as! Double;
+                stock.chartData = chartArray as [CGFloat];
                 
                 self.stockDetails[currentSymbol] = stock;
                 
-                print(self.stockDetails);
                 DispatchQueue.main.async {
                     self.tableView.reloadData();
                 }
@@ -211,6 +253,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         companyName.text = object.companyName.description;
         peRatio.text = object.peRatio.description;
         priceLabel.text = object.currentPrice.description;
+
+        prepareGraph(dataSet: object.chartData);
+        
     }
     
     //Customize the cell
@@ -257,6 +302,49 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         delete.backgroundColor = UIColor.black
         
         return [delete];
+    }
+    
+    func prepareGraph(dataSet : [CGFloat]){
+        var views: [String: AnyObject] = [:]
+        label.text = "..."
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = NSTextAlignment.center
+        label.textColor = .white;
+        self.graphView.addSubview(label);
+        
+        views["label"] = label
+        graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[label]-|", options: [], metrics: nil, views: views))
+        graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-80-[label]", options: [], metrics: nil, views: views))
+        
+        // simple arrays
+       // let data: [CGFloat] = [3, 4, -2, 11, 13, 15]
+        let data: [CGFloat] = dataSet;
+        
+        // simple line with custom x axis labels
+        let xLabels: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","July"]
+        lineChart = LineChart();
+       
+        lineChart.animation.enabled = true
+        lineChart.area = true
+        lineChart.x.labels.visible = true
+        lineChart.x.grid.count = 7
+        lineChart.y.grid.count = 5
+        lineChart.x.labels.values = xLabels
+        lineChart.y.labels.visible = true
+        
+        lineChart.addLine(data)
+        lineChart.lineWidth = 1;
+        
+        lineChart.translatesAutoresizingMaskIntoConstraints = false
+        lineChart.delegate = self
+        graphView.clipsToBounds = true;
+        self.graphView.addSubview(lineChart)
+        
+
+        views["chart"] = lineChart
+        graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[chart]-|", options: [], metrics: nil, views: views))
+        graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[label]-[chart(==200)]", options: [], metrics: nil, views: views))
+        
     }
     
 }
