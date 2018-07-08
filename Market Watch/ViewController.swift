@@ -67,7 +67,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var graphView: UIView!
     @IBOutlet weak var newsView: UIView!
     @IBOutlet weak var headLine: UILabel!
+   
     @IBOutlet weak var newsArticle: UILabel!
+    @IBOutlet weak var errorLabel: UILabel!
     
     @IBOutlet weak var changePage: UISegmentedControl!
     @IBAction func changePage(_ sender: Any) {
@@ -100,13 +102,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if(stockInput.text != "" && stockInput != nil){
             
             let currentSymbol = stockInput.text;
-            coreDataManager().saveData(inputString: stockInput.text!);
+            
+           
+            
             networkingManager().getDailyData(symbol: stockInput.text!) { (results) in
                 
-                let quote = results["quote"] as! NSDictionary;
-                let changePercent = quote["changePercent"] as! Double
-                let currentStock = (currentSymbol, changePercent * 100);
-                self.stocks.append(currentStock as! (String, Double));
+                
+                if(results.allKeys.count == 0){
+                    DispatchQueue.main.async {
+                    self.errorLabel.text = "Symbol Not Found !!"
+                    }
+                }else {
+                    DispatchQueue.main.async {
+                        self.errorLabel.text = ""
+                        self.changePage.isHidden = false;
+                    }
+                    coreDataManager().saveData(inputString: currentSymbol!);
+                    let quote = results["quote"] as! NSDictionary;
+                    let chart = results["chart"] as! NSArray;
+                    let news = results["news"] as! NSArray;
+                    let changePercent = quote["changePercent"] as! Double
+                    let currentStock = (currentSymbol, changePercent * 100);
+                    self.stocks.append(currentStock as! (String, Double));
+                
+                var i = chart.count - 1;
+                var count = 0;
+                var chartArray = [CGFloat]();
+                chartArray.append(0);
+                while(i > 0 && count < 7){
+                    
+                    let day = chart[i] as! NSDictionary;
+                    let open = day["open"] as! CGFloat;
+                    chartArray.append(open);
+                    i -= 1;
+                    count += 1;
+                }
+                
+                let latestNews = news[0] as! NSDictionary;
+                
+                
                 let stock = stockQuote();
                 
                 stock.companyName = quote["companyName"] as! String;
@@ -116,15 +150,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 stock.close = quote["close"] as! Double;
                 stock.peRatio = quote["peRatio"] as! Double;
                 stock.currentPrice = quote["latestPrice"] as! Double;
+                stock.chartData = chartArray as [CGFloat];
+                stock.headLine = latestNews["headline"] as! String;
+                stock.summary = latestNews["summary"] as! String;
                 
                 self.stockDetails[currentSymbol!] = stock;
                // print(self.stockDetails);
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData();
+                    self.addStockView.isHidden = true;
                 }
+                    
+              }
             }
-            addStockView.isHidden = true;
+            
+            
             
             
             
@@ -134,9 +175,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func addStock(_ sender: Any) {
         if(addStockView.isHidden == false){
             addStockView.isHidden = true;
+            changePage.isHidden = false;
         }
         else if(addStockView.isHidden == true){
             addStockView.isHidden = false;
+            changePage.isHidden = true;
             
             
             
@@ -163,15 +206,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let storedSymbols = coreDataManager().getAllResults();
         var i = 0;
         
-//        print(coreDataManager().getAllResults());
+        print(coreDataManager().getAllResults());
      
         while(i < storedSymbols.count){
             var currentSymbol = storedSymbols[i];
+       //     performNetworkingAndUpdateTable(currentSymbol: currentSymbol);
           //  print(currentSymbol);
            
             
-        //    coreDataManager().deleteData(inputString: "APPL");
-        //    coreDataManager().deleteData(inputString: "AAPL");
+             coreDataManager().deleteData(inputString: "APPL");
+         //    coreDataManager().deleteData(inputString: "AAPL");
          //   coreDataManager().deleteData(inputString: "RY");
          //   coreDataManager().deleteData(inputString: "GOOG");
          //   coreDataManager().deleteData(inputString: "HPQ");
@@ -183,9 +227,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
          //   coreDataManager().deleteData(inputString: "FB");
          //   coreDataManager().deleteData(inputString: "MSFT");
          //  coreDataManager().deleteData(inputString: "NIFTY")
+         //   coreDataManager().deleteData(inputString: "SNAP");
+         //   coreDataManager().deleteData(inputString: "dvsdvdsv");
          
             
-            
+        
             networkingManager().getDailyData(symbol: storedSymbols[i]) { (results) in
                 
                 let quote = results["quote"] as! NSDictionary;
@@ -195,7 +241,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let currentStock = (currentSymbol, changePercent * 100);
                 self.stocks.append(currentStock);
                 
-                print(chart[chart.count - 1]);
                 var i = chart.count - 1;
                 var count = 0;
                 var chartArray = [CGFloat]();
@@ -235,6 +280,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
               
                 
             }
+            
+            
             i += 1;
         }
         
@@ -386,5 +433,4 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[label]-[chart(==200)]", options: [], metrics: nil, views: views))
         
     }
-    
 }

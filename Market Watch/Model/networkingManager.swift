@@ -32,14 +32,24 @@ class networkingManager{
             
             // Parse into json and then convert into dictionary
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if(json != nil){
+                
+                let response = json as! NSDictionary
+                completionHandler(response);
+            }else {
+                let tempDict = NSDictionary();
+                completionHandler(tempDict);
+            }
             
-            let response = json as! NSDictionary
+            
+            
+            
             
             
             
                 
                 // Send data back to calling function
-                completionHandler(response);
+            
             
         }
         task.resume();
