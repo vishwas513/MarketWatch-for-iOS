@@ -77,9 +77,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
                 
                 let latestNews = news[0] as! NSDictionary;
-                
-                
-                
                 let stock = stockQuote();
                 
                 stock.companyName = quote["companyName"] as! String;
@@ -99,7 +96,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 DispatchQueue.main.async {
                     self.tableView.reloadData();
                 }
-                
                 
             }
             

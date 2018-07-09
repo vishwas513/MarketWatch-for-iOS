@@ -19,8 +19,6 @@
 		E92C669C20EDB4F000598B40 /* networkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669B20EDB4F000598B40 /* networkingManager.swift */; };
 		E92C66A020EDF90A00598B40 /* stockQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92C669F20EDF90A00598B40 /* stockQuote.swift */; };
 		E9C1A2F720F17F79000384CA /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C1A2F620F17F79000384CA /* LineChart.swift */; };
-		E9C1A2FA20F18DE2000384CA /* 16201-200.png in Resources */ = {isa = PBXBuildFile; fileRef = E9C1A2F920F18DE2000384CA /* 16201-200.png */; };
-		E9C1A2FC20F18EC2000384CA /* bar_graph_alt-512.png in Resources */ = {isa = PBXBuildFile; fileRef = E9C1A2FB20F18EC2000384CA /* bar_graph_alt-512.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +57,6 @@
 		E92C669B20EDB4F000598B40 /* networkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = networkingManager.swift; sourceTree = "<group>"; };
 		E92C669F20EDF90A00598B40 /* stockQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stockQuote.swift; sourceTree = "<group>"; };
 		E9C1A2F620F17F79000384CA /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
-		E9C1A2F920F18DE2000384CA /* 16201-200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16201-200.png"; sourceTree = "<group>"; };
-		E9C1A2FB20F18EC2000384CA /* bar_graph_alt-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_graph_alt-512.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +107,6 @@
 		E92C666120ED946500598B40 /* Market Watch */ = {
 			isa = PBXGroup;
 			children = (
-				E9C1A2F820F18DCF000384CA /* icons */,
 				E9C1A2F520F17F59000384CA /* Graph */,
 				E92C669620EDA92B00598B40 /* Model */,
 				E92C666220ED946500598B40 /* AppDelegate.swift */,
@@ -159,15 +154,6 @@
 				E9C1A2F620F17F79000384CA /* LineChart.swift */,
 			);
 			path = Graph;
-			sourceTree = "<group>";
-		};
-		E9C1A2F820F18DCF000384CA /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				E9C1A2F920F18DE2000384CA /* 16201-200.png */,
-				E9C1A2FB20F18EC2000384CA /* bar_graph_alt-512.png */,
-			);
-			path = icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,9 +260,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9C1A2FC20F18EC2000384CA /* bar_graph_alt-512.png in Resources */,
 				E92C667020ED946600598B40 /* LaunchScreen.storyboard in Resources */,
-				E9C1A2FA20F18DE2000384CA /* 16201-200.png in Resources */,
 				E92C666D20ED946600598B40 /* Assets.xcassets in Resources */,
 				E92C666820ED946500598B40 /* Main.storyboard in Resources */,
 			);

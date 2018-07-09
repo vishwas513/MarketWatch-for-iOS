@@ -12,7 +12,6 @@ class networkingManager{
     
     
     func getDailyData(symbol:String, completionHandler: @escaping (_ stockData: NSDictionary) -> ()){
-        print(symbol.count);
         let baseUrl2 = "https://api.iextrading.com/1.0/stock"
         let url2 = NSURL(string: baseUrl2 + "/" + symbol + "/" + "batch?types=quote,news,chart&range=1m&last=1")!
         
