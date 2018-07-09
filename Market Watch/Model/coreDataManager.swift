@@ -12,23 +12,21 @@ import UIKit
 
 class coreDataManager {
     
-    
-    
-    
     func saveData(inputString:String){
-        let appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate);
-        let context:NSManagedObjectContext = appDel.persistentContainer.viewContext
-        let symbol = NSEntityDescription.insertNewObject(forEntityName: "Symbols",into: context) as! Symbols
-        symbol.smybolName = inputString;
-        
-        do{
-            try context.save()
-            print("Saved into Core Data")
-        }catch {
-            print("Core Data Error !")
-            abort()
+        DispatchQueue.main.async {
+            let appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate);
+            let context:NSManagedObjectContext = appDel.persistentContainer.viewContext
+            let symbol = NSEntityDescription.insertNewObject(forEntityName: "Symbols",into: context) as! Symbols
+            symbol.smybolName = inputString;
+            
+            do{
+                try context.save()
+                print("Saved into Core Data")
+            }catch {
+                print("Core Data Error !")
+                abort()
+            }
         }
-        
     }
     
     func deleteData(inputString: String){
