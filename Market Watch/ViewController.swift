@@ -6,6 +6,19 @@
 //  Copyright © 2018 Vishwas Mukund. All rights reserved.
 //
 
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+
 import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, LineChartDelegate {
@@ -126,8 +139,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func addSymbol(_ sender: Any) {
         
         if(stockInput.text != "" && stockInput != nil){
-            let currentSymbol = stockInput.text;
-            networkingManager().getDailyData(symbol: stockInput.text!) { (results) in
+            
+            var currentSymbol = stockInput.text;
+            
+            if(currentSymbol?.last == " "){
+                currentSymbol?.removeLast();
+            }
+            networkingManager().getDailyData(symbol: currentSymbol!) { (results) in
                 
                 
                 if(results.allKeys.count == 0){
@@ -198,6 +216,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if(addStockView.isHidden == false){
             addStockView.isHidden = true;
             changePage.isHidden = false;
+            dismissKeyboard();
         }
         else if(addStockView.isHidden == true){
             addStockView.isHidden = false;
@@ -207,12 +226,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     override func viewDidLoad() {
         super.viewDidLoad();
-        
+        self.hideKeyboardWhenTappedAround()
         graphView.isHidden = true;
         addStockView.isHidden = true;
         newsView.isHidden = true;
     
-        addStockView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.5);
+        addStockView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
+        UIView.transition(with: graphView, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil);
         graphView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
         newsView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
         
@@ -450,5 +470,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     func didSelectDataPoint(_ x: CGFloat, yValues: [CGFloat]) {
         label.text = "currentPrice: \(yValues)"
+    }
+    @objc override func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
