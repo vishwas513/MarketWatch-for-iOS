@@ -67,6 +67,14 @@ TableView :
 - Git clone or download zip 
 - run Market Watch.xcodproj fill and press the play button to run on simulator or device.
 
+# Testing
+- Delegation comformance of ViewController is tested.
+- Networking success and failure has been tested. 
+- Objects conformance to design is tested.
+- Core Data Saving, deleting and displaying all results are tested. 
+- To test goto file Market WatchTest.swift.
+- Goto build and press test and wait till all the test cases appear green. 
+
 Please feel free to contact me anytime if there is some issue, or if you need more information. Thanks.
 
 
