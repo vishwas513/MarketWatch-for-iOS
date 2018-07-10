@@ -1,4 +1,4 @@
-###Features
+# Features
 
 - Get Stock information for any Stock Symbol in real time.
 - Able to store symbols in Core Data
@@ -16,7 +16,7 @@
 
 
 
-![](https://github.com/vishwas513/MarketWatch-for-iOS/headerImage.png)
+![](https://github.com/vishwas513/MarketWatch-for-iOS/blob/master/headerImage.png)
 
 # Manual
 
