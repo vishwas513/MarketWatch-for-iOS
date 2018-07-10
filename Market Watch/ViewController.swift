@@ -2,10 +2,13 @@
 //  ViewController.swift
 //  Market Watch
 //
-//  Created by Vishwas Mukund on 7/4/18.
+//  Created by Vishwas Mukund on 7/7/18.
 //  Copyright © 2018 Vishwas Mukund. All rights reserved.
 //
 
+import UIKit
+
+// Dismiss keyboard on top outside the keyboard
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
@@ -18,17 +21,18 @@ extension UIViewController {
     }
 }
 
-
-import UIKit
-
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, LineChartDelegate {
     
-    var label = UILabel()
-    var lineChart: LineChart!
-    var appDel: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    
+    
     fileprivate var stocks: [(String,Double)] = []
     fileprivate var stockDetails = [String : stockQuote]();
+  
+    //Initilize the graph
+    var label = UILabel()
+    var lineChart: LineChart!
     
+    //IBOutlets
     @IBOutlet weak var addStockView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var stockInput: UITextField!
@@ -46,14 +50,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var changePage: UISegmentedControl!
    
+    //IBAction Methods
     @IBAction func refreshButton(_ sender: Any) {
         let storedSymbols = coreDataManager().getAllResults();
         var i = 0;
         
+        //Empty current values to repopulate with fresh values
         self.stocks = [];
         while(i < storedSymbols.count){
             let currentSymbol = storedSymbols[i];
            
+            //Get New Values form stored quotes
             networkingManager().getDailyData(symbol: storedSymbols[i]) { (results) in
                 
                 let quote = results["quote"] as! NSDictionary;
@@ -61,14 +68,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let news = results["news"] as! NSArray;
                 let changePercent = quote["changePercent"] as! Double
                 let currentStock = (currentSymbol, changePercent * 100);
-                self.stocks.append(currentStock);
-                
+                let latestNews = news[0] as! NSDictionary;
                 var i = chart.count - 1;
                 var count = 0;
                 var chartArray = [CGFloat]();
-                //self.stockDetails.removeAll();
+                
+                self.stocks.append(currentStock);
+            
+                // Get graph data for last 7 trading days
                 while(i > 0 && count < 7){
-                    
                     let day = chart[i] as! NSDictionary;
                     let open = day["open"] as! CGFloat;
                     chartArray.append(open);
@@ -76,9 +84,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     count += 1;
                 }
                 
-                let latestNews = news[0] as! NSDictionary;
+                //Create and initilize stockQuote object
                 let stock = stockQuote();
-                
                 stock.companyName = quote["companyName"] as! String;
                 stock.high = quote["high"] as! Double;
                 stock.low = quote["low"] as! Double;
@@ -92,19 +99,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 self.stockDetails[currentSymbol] = stock;
                 
-
+                // Reload Table
                 DispatchQueue.main.async {
                     self.tableView.reloadData();
                 }
-                
             }
-            
-            
             i += 1;
         }
-        
-        
-        
     }
     
     @IBAction func changePage(_ sender: Any) {
@@ -125,25 +126,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             UIView.transition(with: graphView, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil);
             
         }
-        
     }
     
-    @IBAction func closeGraph(_ sender: Any) {
-        graphView.isHidden = true;
-    }
-    
+    // Add symbol
     @IBAction func addSymbol(_ sender: Any) {
-        
         if(stockInput.text != "" && stockInput != nil){
-            
             var currentSymbol = stockInput.text;
-            
+    
             if(currentSymbol?.last == " "){
                 currentSymbol?.removeLast();
             }
             networkingManager().getDailyData(symbol: currentSymbol!) { (results) in
                 
-                
+                // Symbol does not exist
                 if(results.allKeys.count == 0){
                     DispatchQueue.main.async {
                     self.errorLabel.text = "Symbol Not Found !!"
@@ -154,60 +149,53 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         self.changePage.isHidden = false;
                     }
                     coreDataManager().saveData(inputString: currentSymbol!);
+                    
                     let quote = results["quote"] as! NSDictionary;
                     let chart = results["chart"] as! NSArray;
                     let news = results["news"] as! NSArray;
                     let changePercent = quote["changePercent"] as! Double
                     let currentStock = (currentSymbol, changePercent * 100);
+                    let latestNews = news[0] as! NSDictionary;
+                    var i = chart.count - 1;
+                    var count = 0;
+                    var chartArray = [CGFloat]();
+                    
                     self.stocks.append(currentStock as! (String, Double));
                 
-                var i = chart.count - 1;
-                var count = 0;
-                var chartArray = [CGFloat]();
-                chartArray.append(0);
-                while(i > 0 && count < 7){
-                    
-                    let day = chart[i] as! NSDictionary;
-                    let open = day["open"] as! CGFloat;
-                    chartArray.append(open);
-                    i -= 1;
-                    count += 1;
+                    // Get graph data for last 7 trading days
+                    while(i > 0 && count < 7){
+                        let day = chart[i] as! NSDictionary;
+                        let open = day["open"] as! CGFloat;
+                        chartArray.append(open);
+                        i -= 1;
+                        count += 1;
+                    }
+                
+                    //Create and initialize stockQuote object
+                    let stock = stockQuote();
+                    stock.companyName = quote["companyName"] as! String;
+                    stock.high = quote["high"] as! Double;
+                    stock.low = quote["low"] as! Double;
+                    stock.open = quote["open"] as! Double;
+                    stock.close = quote["close"] as! Double;
+                    stock.peRatio = quote["peRatio"] as! Double;
+                    stock.currentPrice = quote["latestPrice"] as! Double;
+                    stock.chartData = chartArray as [CGFloat];
+                    stock.headLine = latestNews["headline"] as! String;
+                    stock.summary = latestNews["summary"] as! String;
+                
+                    self.stockDetails[currentSymbol!] = stock;
+            
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData();
+                        self.addStockView.isHidden = true;
+                    }
                 }
-                
-                let latestNews = news[0] as! NSDictionary;
-                
-                
-                let stock = stockQuote();
-                
-                stock.companyName = quote["companyName"] as! String;
-                stock.high = quote["high"] as! Double;
-                stock.low = quote["low"] as! Double;
-                stock.open = quote["open"] as! Double;
-                stock.close = quote["close"] as! Double;
-                stock.peRatio = quote["peRatio"] as! Double;
-                stock.currentPrice = quote["latestPrice"] as! Double;
-                stock.chartData = chartArray as [CGFloat];
-                stock.headLine = latestNews["headline"] as! String;
-                stock.summary = latestNews["summary"] as! String;
-                
-                self.stockDetails[currentSymbol!] = stock;
-               // print(self.stockDetails);
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData();
-                    self.addStockView.isHidden = true;
-                }
-                    
-              }
             }
-            
-            
-            
-            
-            
         }
     }
     
+    //This is the + button
     @IBAction func addStock(_ sender: Any) {
         if(addStockView.isHidden == false){
             addStockView.isHidden = true;
@@ -223,10 +211,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad();
         self.hideKeyboardWhenTappedAround()
+        
+        // Initilize views
         graphView.isHidden = true;
         addStockView.isHidden = true;
         newsView.isHidden = true;
-    
         addStockView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
         UIView.transition(with: graphView, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil);
         graphView.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.9);
@@ -238,42 +227,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
      
         while(i < storedSymbols.count){
             let currentSymbol = storedSymbols[i];
-       //     performNetworkingAndUpdateTable(currentSymbol: currentSymbol);
-          //  print(currentSymbol);
-           
-            
-         //    coreDataManager().deleteData(inputString: "APPL");
-         //    coreDataManager().deleteData(inputString: "AAPL");
-         //   coreDataManager().deleteData(inputString: "RY");
-         //   coreDataManager().deleteData(inputString: "GOOG");
-         //   coreDataManager().deleteData(inputString: "HPQ");
-         //   coreDataManager().deleteData(inputString: "SBUX");
-         //   coreDataManager().deleteData(inputString: "INFY");
-         //   coreDataManager().deleteData(inputString: "FB");
-         //   coreDataManager().deleteData(inputString: "");
-         //   coreDataManager().deleteData(inputString: "XOM");
-         //   coreDataManager().deleteData(inputString: "FB");
-         //   coreDataManager().deleteData(inputString: "MSFT");
-         //  coreDataManager().deleteData(inputString: "NIFTY")
-         //   coreDataManager().deleteData(inputString: "SNAP");
-         //   coreDataManager().deleteData(inputString: "dvsdvdsv");
-         
-            
-        
+
             networkingManager().getDailyData(symbol: storedSymbols[i]) { (results) in
-                
                 let quote = results["quote"] as! NSDictionary;
                 let chart = results["chart"] as! NSArray;
                 let news = results["news"] as! NSArray;
                 let changePercent = quote["changePercent"] as! Double
                 let currentStock = (currentSymbol, changePercent * 100);
-                self.stocks.append(currentStock);
-                
+                let latestNews = news[0] as! NSDictionary;
                 var i = chart.count - 1;
                 var count = 0;
                 var chartArray = [CGFloat]();
+                
+                self.stocks.append(currentStock);
+                
                 while(i > 0 && count < 7){
-                    
                     let day = chart[i] as! NSDictionary;
                     let open = day["open"] as! CGFloat;
                     chartArray.append(open);
@@ -281,12 +249,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     count += 1;
                 }
                 
-                let latestNews = news[0] as! NSDictionary;
-                
-                
-    
                 let stock = stockQuote();
-                
                 stock.companyName = quote["companyName"] as! String;
                 stock.high = quote["high"] as! Double;
                 stock.low = quote["low"] as! Double;
@@ -297,40 +260,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 stock.chartData = chartArray as [CGFloat];
                 stock.headLine = latestNews["headline"] as! String;
                 stock.summary = latestNews["summary"] as! String;
-                
+
                 self.stockDetails[currentSymbol] = stock;
-                
-                print(self.stockDetails);
+    
                 DispatchQueue.main.async {
                     self.tableView.reloadData();
                 }
-              
-                
             }
-            
-            
             i += 1;
         }
-        
-        
-        
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    //UITableViewDataSource
+    // Table view methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocks.count;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:UITableViewCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "cellId")
-        //cell.textLabel.text = stocks[indexPath.row]
-        cell.textLabel!.text = stocks[indexPath.row].0 //position 0 of the tuple: The Symbol "APPL"
-        cell.detailTextLabel!.text = "\(stocks[indexPath.row].1)" + "%" //position 1 of the tuple: The value "99" into String
+        
+        cell.textLabel!.text = stocks[indexPath.row].0
+        cell.detailTextLabel!.text = "\(stocks[indexPath.row].1)" + "%"
         cell.selectionStyle = UITableViewCellSelectionStyle.none;
         
         let indexPath = IndexPath(row: 0, section: 0)
@@ -349,12 +303,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom);
         prepareGraph(dataSet: object.chartData);
-        
-        
+
         return cell
     }
     
-    //UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row;
         let currentSymbol = self.stocks[index].0 as String;
@@ -398,47 +350,38 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            
-           // coreDataManager().deleteData(inputString: (stocks[indexPath.row].0));
-           // stocks.remove(at: indexPath.row);
-           // tableView.reloadData();
-        }
-    }
+    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
         let delete = UITableViewRowAction(style: .normal, title: "Delete") { (action, indexPath) in
+            
             coreDataManager().deleteData(inputString: (self.stocks[indexPath.row].0));
             self.stocks.remove(at: indexPath.row);
             tableView.reloadData();
         }
         
         delete.backgroundColor = UIColor.black
-        
+    
         return [delete];
     }
     
     func prepareGraph(dataSet : [CGFloat]){
         var views: [String: AnyObject] = [:]
-        label.text = "Click on point at view information at that day"
+        
+        label.text = "Click on point to view information at that day"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = NSTextAlignment.center
         label.textColor = .white;
         self.graphView.addSubview(label);
-        
         views["label"] = label
         graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[label]-|", options: [], metrics: nil, views: views))
         graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-80-[label]", options: [], metrics: nil, views: views))
         
-        // simple arrays
-       // let data: [CGFloat] = [3, 4, -2, 11, 13, 15]
         let data: [CGFloat] = dataSet;
-        
+
         // simple line with custom x axis labels
-        let xLabels: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","July"]
+        let xLabels: [String] = ["day1", "day2", "day3", "day4", "day5", "day6","day7"]
+        
         lineChart = LineChart();
-       
         lineChart.animation.enabled = true
         lineChart.area = false
         lineChart.x.labels.visible = true
@@ -446,11 +389,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         lineChart.y.grid.count = 1
         lineChart.x.labels.values = xLabels
         lineChart.y.labels.visible = true
-        
         lineChart.addLine(data)
         lineChart.lineWidth = 1;
-
-        
         lineChart.translatesAutoresizingMaskIntoConstraints = false
         lineChart.delegate = self
         graphView.clipsToBounds = true;
@@ -458,7 +398,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.graphView.addSubview(lineChart);
         
-
         views["chart"] = lineChart
         graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[chart]-|", options: [], metrics: nil, views: views))
         graphView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[label]-[chart(==200)]", options: [], metrics: nil, views: views))
